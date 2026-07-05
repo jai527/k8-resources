@@ -1,12 +1,12 @@
 resource "aws_vpc" "k8_vpc" {
     cidr_block = var.cidr_block
-    instance_tenancy = true
+    instance_tenancy = "default"
   
 tags = local.common_tags
 
 }
 
-resource "aws_internet_gateway" "main" {
+resource "aws_internet_gateway" "k8" {
   vpc_id = aws_vpc.k8_vpc.id                     # vpc accostaions
 
   tags = local.igw_final_tags
@@ -17,7 +17,11 @@ resource "aws_subnet" "public_subnet" {
     cidr_block              = var.public_cidr
     availability_zone       = var.availability_zone
     map_public_ip_on_launch = true
-}
+    
+tags = {
+    Name = "k8_publi-subnet"
+  }
+} 
 
 resource "aws_route_table" "k8" {
   vpc_id = aws_vpc.k8_vpc.id
@@ -27,20 +31,20 @@ resource "aws_route_table" "k8" {
 resource "aws_route" "route" {
   route_table_id         = aws_route_table.k8.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.igw.id
+  gateway_id             = aws_internet_gateway.k8.id
 
 }
 
 # ✅ Associate Route Table
 resource "aws_route_table_association" "assoc" {
   subnet_id      = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.rt.id
+  route_table_id = aws_route_table.k8.id
 }
 
 # ✅ Security Group (ONLY SSH)
 resource "aws_security_group" "sg" {
   name   = "ssh-only-sg"
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.k8_vpc.id
 
   ingress {
     description = "SSH Access"
@@ -65,6 +69,8 @@ resource "aws_instance" "k8s_ec2" {
   subnet_id              = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.sg.id]
   associate_public_ip_address = true
+
+  user_data = file("${path.module}/user_data.sh")
 
   root_block_device {
     volume_size = 50
