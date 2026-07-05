@@ -1,0 +1,8 @@
+apiVersion: vi
+kind: NameSpace
+metadata:
+  name: roboshop
+  labels:
+    project: roboshop
+    environment: dev
+    purpose: poc
