@@ -1,5 +1,5 @@
 apiVersion: vi
-kind: NameSpace
+kind: kind: Namespace
 metadata:
   name: roboshop
   labels:
