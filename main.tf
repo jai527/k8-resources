@@ -19,7 +19,7 @@ resource "aws_subnet" "public_subnet" {
     map_public_ip_on_launch = true
     
 tags = {
-    Name = "k8_publi-subnet"
+    Name = "k8_public-subnet"
   }
 } 
 
@@ -75,4 +75,10 @@ resource "aws_instance" "k8s_ec2" {
   root_block_device {
     volume_size = 50
   }
+  tags = merge(
+    {
+        Name = "${var.project}-${var.environment}-k8s"
+    },
+    local.common_tags
+  )
 }
