@@ -11,6 +11,6 @@ metadata:
     imageregistory: "http://hub.docker.com/"
     jenkinsURL: "https://jenkins.joindevops.com/build/job/roboshop/34" 
 spec:
-containers:
-- name: nginx
-  image: nginx
+  containers:
+  - name: nginx
+    image: nginx
