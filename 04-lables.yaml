@@ -8,7 +8,7 @@ metadata:
     project: roboshop
     environment: dev
     purpose: poc
-  spec:
+spec:
   container:
   - name: nginx
     image: nginx
