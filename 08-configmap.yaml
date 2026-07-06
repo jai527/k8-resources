@@ -1,9 +1,10 @@
 apiVersion: v1
-kind: configmap
+kind: ConfigMap
 
 metadata:
   name: configmap
+
 data:
   course: "k8s"
   duration: "1hr"
-  trainner: "jai"
+  trainer: "jai"
