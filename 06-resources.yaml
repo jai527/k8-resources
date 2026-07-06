@@ -10,10 +10,10 @@ spec:
     resources:
       # SOFT LIMIT
       requests:
-        memory: "64mi"    #RAM
+        memory: "64Mi"    #RAM
         cpu: "100m"       # CPU
       # HARD LIMITS
         limits:
-          memory: "128mi"
+          memory: "128Mi"
           cpu: "150m"
 
