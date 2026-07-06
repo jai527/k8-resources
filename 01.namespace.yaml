@@ -1,15 +1,8 @@
-apiVersion: v1
-kind: Pod
-
+apiVersion: vi
+kind: NameSpace
 metadata:
-  name: labels
-  namespace: roboshop
+  name: roboshop
   labels:
     project: roboshop
     environment: dev
     purpose: poc
-
-spec:
-  containers:
-  - name: nginx
-    image: nginx
