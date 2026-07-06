@@ -4,9 +4,9 @@ kind: Pod
 metadata:
   name: pod-configmap
 spec:
-containers:
-- name: nginx
-  image: nginx
-  envfrom: 
-  - configMapRef:
-      name: configmap
+  containers:
+  - name: nginx
+    image: nginx
+    envfrom: 
+    - configMapRef:
+        name: configmap
