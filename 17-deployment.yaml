@@ -9,6 +9,8 @@ metadata:
     purpose: rs-demo
     tier: frontend
     component: frontend
+  annotations:
+    kubernetes.io/change-cause: "moving to 1.15.0"
 spec:
   replicas: 3
   selector:
