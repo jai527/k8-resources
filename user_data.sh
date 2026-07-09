@@ -24,3 +24,16 @@ chmod +x /usr/local/bin/kubectl
 # Verify installation
 eksctl version > /tmp/eksctl-version.txt
 kubectl version --client > /tmp/kubectl-version.txt
+
+# Step 1: Download kubectx & kubens
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+# Step 2: Create Symlinks
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+#Step 3: Make Executable
+sudo chmod +x /opt/kubectx/kubectx
+sudo chmod +x /opt/kubectx/kubens
+# Verify Installation
+kubens
+# K9s is a terminal-based UI for Kubernetes. Instead of typing many kubectl commands, you get an interactive dashboard.
+curl -sS https://webinstall.dev/k9s | bash
