@@ -1,6 +1,7 @@
+# sc is admin task 
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: ebs-sc
+  name: roboshop-sbc
 provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
