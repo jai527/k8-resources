@@ -19,6 +19,6 @@ spec:
       readOnly: true
   # this is at the pod level 
   volumes:
-  - name: nginx-logs
+  - name: empty-dir
     emptyDir:
-      sizeLimits: 500mi
+      sizeLimit: 500Mi
