@@ -11,14 +11,14 @@ spec:
     volumeMounts:
     - mountPath: /var/log/nginx
       name: nginx-logs
-  - name: almalinux:9
-    image: almalinux
+  - name: almalinux
+    image: almalinux:9
     volumeMounts:
     - mountPath: /mnt/nginx-logs
       name: nginx-logs
       readOnly: true
   # this is at the pod level 
   volumes:
-  - name: empty-dir
+  - name: nginx-logs
     emptyDir:
       sizeLimit: 500Mi
