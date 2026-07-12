@@ -1,4 +1,4 @@
-resource "aws_vpc" "k8_vpc" {
+ resource "aws_vpc" "k8_vpc" {
     cidr_block = var.cidr_block
     instance_tenancy = "default"
   
@@ -39,18 +39,19 @@ resource "aws_route" "route" {
 resource "aws_route_table_association" "assoc" {
   subnet_id      = aws_subnet.public_subnet.id
   route_table_id = aws_route_table.k8.id
-}
+} 
 
 # ✅ Security Group (ONLY SSH)
-resource "aws_security_group" "sg" {
-  name   = "ssh-only-sg"
+resource "aws_security_group" "workstation" {
+  name   = "allow-all-workstation" # this is for aws account 
+  description = "allow tls inbount traffic and all outbound traffic"
   vpc_id = aws_vpc.k8_vpc.id
 
   ingress {
     description = "SSH Access"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -65,9 +66,9 @@ resource "aws_security_group" "sg" {
 # ✅ EC2 (Docker + /var extend)
 resource "aws_instance" "k8s_ec2" {
   ami           = local.ami_id
-  instance_type = var.instance_type
+  instance_type = "t3.micro"
   subnet_id              = aws_subnet.public_subnet.id
-  vpc_security_group_ids = [aws_security_group.sg.id]
+  vpc_security_group_ids = [aws_security_group.workstation.id]
   associate_public_ip_address = true
 
   user_data = file("${path.module}/user_data.sh")
@@ -78,7 +79,7 @@ resource "aws_instance" "k8s_ec2" {
   tags = merge(
     {
         Name = "${var.project}-${var.environment}-k8s"
-    },
+    },  
     local.common_tags
   )
 }
