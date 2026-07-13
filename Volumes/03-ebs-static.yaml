@@ -1,24 +1,24 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ebs
+  name: ebs-static
 spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 5Gi
+    storage: 2Gi
   csi:
     driver: ebs.csi.aws.com
     fsType: ext4
-    volumeHandle: vol-0e6883b3bd129b5fa
+    volumeHandle: vol-0014e1d0f69690f21
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ebs
+  name: ebs-static
 spec:
   storageClassName: "" # means do not use any StorageClass and bind only to a manually created PV.
-  volumeName: ebs
+  volumeName: ebs-static # this is the pv name
   accessModes:
     - ReadWriteOnce
   resources:
@@ -36,10 +36,12 @@ spec:
       volumeMounts:
         - name: html-data
           mountPath: /usr/share/nginx/html
+      nodeSelector:
+        topology.kubernetes.io/zone: us-east-1b
 
   volumes:
     - name: html-data
       persistentVolumeClaim:
-        claimName: ebs
+        claimName: ebs-static
 
   
