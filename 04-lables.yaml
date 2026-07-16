@@ -3,7 +3,7 @@ kind: Pod
 
 metadata:
   name: labels
-  #namespace: roboshop
+  namespace: roboshop
   labels:
     project: roboshop
     environment: dev
