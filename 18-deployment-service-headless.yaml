@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: app
+  namespace: roboshop
   labels:
     project: roboshop
     environment: dev
@@ -28,11 +29,11 @@ spec:
       - name: nginx
         image: nginx:1.15.0
 ---
-
 apiVersion: v1
 kind: Service 
 metadata:
   name: app
+  namespace: roboshop
 spec:
   selector: 
       project: roboshop
@@ -43,6 +44,19 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+---
+apiVersion: v1
+kind: headless
+metadata:
+  name: app-headless
+  namespace: roboshop
+spec:
+  clusterIP: None 
+  selector:
+    project: roboshop
+    environment: dev
+    tier: frontend
+    component: app
 
 
 
